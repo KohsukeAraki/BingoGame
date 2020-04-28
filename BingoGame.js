@@ -1,19 +1,37 @@
 document.getElementById('start').onclick = function(){
+    var table = document.createElement('table');
+    var tr = document.createElement('tr');
+    var th = document.createElement('th');
+    th.textContent = '番号';
+    tr.appendChild(th);
+    var th = document.createElement('th');
+    th.textContent = '列';
+    tr.appendChild(th);
+
+    var td = document.createElement('td');
+    var tr = document.createElement('tr');
+
     var min = 1;
     var max = 75;
     
     var BingoNum = Math.floor(Math.random() * (max + 1 - min)) + min;
-    document.write(BingoNum+"</br>");
+    td.textContent = BingoNum;
+    tr.appendChild(td);
+    table.appendChild(tr);
+    var td = document.createElement('td');
     if(BingoNum <= 15){
-        document.write("B</br>"); 
+        td.textContent = 'B'; 
     }else if(BingoNum <= 30){
-        document.write("I</br>"); 
+        td.textContent = 'I'; 
         }else if(BingoNum <= 45){
-        document.write("N</br>");
+            td.textContent = 'N';
         }else if(BingoNum <= 60){
-            document.write("G</br>");
+            td.textContent = 'G';
         }else{
-            document.write("O</br>");
+            td.textContent = 'O';
         }
+        tr.appendChild(td);
+        table.appendChild(tr);
+        document.getElementById('BingoTable').appendChild(table);
     
 } 
