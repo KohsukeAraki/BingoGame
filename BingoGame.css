@@ -1,0 +1,71 @@
+@charset "utf-8";
+
+/* シャッフル中当選番号テキスト */
+.textShuffle {
+	text-align: center;
+	font-weight: bold; 
+	font-size: 500%; 
+	width: 70%;
+	margin: 0 auto;
+	padding:15px 5px;
+  	background-color: #FFFFFF;
+  border-radius: 10px;
+}
+/* 待機中当選番号テキスト */
+.textWaiting {
+	text-align: center;
+	font-weight: bold; 
+	font-size: 500%; 
+	width: 70%;
+	margin: 0 auto;
+	padding:15px 5px;
+  	color: #FFFFFF;
+  	background-color: #FF0000;
+  border-radius: 10px;
+}
+
+/* 当選番号ログ表示エリア */
+.numLog {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	margin: 0 auto;
+	list-style: none;
+	padding: 0;
+}
+
+.BingoBallNotSelected {
+	font-size: 26px; 
+	font-weight: normal ; 
+	color: #cccccc;
+	border: solid 1px #cccccc;
+	display: flex;
+	justify-content: center;
+	height: 38px;
+	margin: 3px;
+	width: 38px;
+	border-radius: 19px;
+	background-color: #FFFFFF;
+}
+.BingoBallSelected {
+	font-size: 26px; 
+	font-weight: bold; 
+	border: solid 2px #FE9A2E;
+	display: flex;
+	justify-content: center;
+	height: 38px;
+	margin: 2px;
+	width: 38px;
+	border-radius: 19px;
+	background-color: #F2F5A9;
+}
+
+
+/* ボタン */
+.button {
+	font-weight: bold; 
+	font-family:sans-serif;
+	font-size: 200%; 
+	padding:10px 20px;
+  margin: 5px;
+}

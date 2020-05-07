@@ -1,82 +1,103 @@
+var flagRunning;
 var min = 1;
 var max = 75;
 var count = 0;
 var bingo = [];
+var timer;
+var qtyRemainBall;
+var Num;
+var numLog_dsp;
+/* 配列の数値入れ替え用のワーク */
+var wkNumber;
+
+txtWinNo  = document.getElementById("txtWinNo");
+btnStart  = document.getElementById("start");
+
+txtWinNo.textContent = 0;
+
+/* 当選番号表示エリアを待機中 */
+textWinArea.className = "textWaiting";
+/* ボタンのテキスト表示 */
+btnStart.textContent = "スタート";
+numLog_dsp = document.getElementById("numLog_dsp");
 
 for(var i = min;i <= max;i++){
     bingo.push(i);
 }
 
-for(var i = bingo.length - 1; i > 0; i--){
-    var r = Math.floor(Math.random() * (i + 1));
-    var tmp = bingo[i];
-    bingo[i] = bingo[r];
-    bingo[r] = tmp;
+for (var i = 1; i <= qtyRemainBall; i++) {
+    //全番号モードの初期状態セットアップ
+    display_setup();
 }
 
 
-document.getElementById('start').onclick = function(){
- 
-    var table = document.createElement('table');
-    var tr = document.createElement('tr');
-    var th = document.createElement('th');
-    th.textContent = '番号';
-    tr.appendChild(th);
-    var th = document.createElement('th');
-    th.textContent = '列';
-    tr.appendChild(th);
+document.getElementById("start").onclick = function(){
 
-    var td = document.createElement('td');
-    var tr = document.createElement('tr');
-if(count != 75){
-    count++;
-    var BingoNum = bingo.pop();
-    td.textContent = BingoNum;
-    tr.appendChild(td);
-    table.appendChild(tr);
-    var td = document.createElement('td');
-    if(BingoNum <= 15){
-        td.textContent = 'B'; 
-    }else if(BingoNum <= 30){
-        td.textContent = 'I'; 
-        }else if(BingoNum <= 45){
-            td.textContent = 'N';
-        }else if(BingoNum <= 60){
-            td.textContent = 'G';
-        }else{
-            td.textContent = 'O';
-        }
-        tr.appendChild(td);
-        table.appendChild(tr);
+    if(flagRunning == true){
+        ToStandby();
     }else{
-        td.textContent = "終了!";
-        alert("全部出し終わりました");
-        tr.appendChild(td);
-        table.appendChild(tr);
+        ToRun();
     }
-        document.getElementById('BingoTable').appendChild(table);
+}
+
+function ToStandby(){
+    clearInterval(timer);
+
+    /* シャッフル中フラグをoffに */
+    flgRunning = false;
     
-}
+    	/* 当選番号表示エリアを待機中 */
+        textWinArea.className = "textWaiting";
 
-document.getElementById('reset').onclick = function(){
-    var res = confirm("リセットしても構いませんか？");
-    if(res == true){
-        bingo = [];
+        	/* 当選番号表示エリアの編集*/
+    document.getElementById("dsp_li"+bingo[Num]).className = "BingoBallSelected";
+    
+    /* ビンゴ番号配列の編集*/
+	wkNumber = bingo[Num] ;
+	bingo[Num]  = bingo[qtyRemainBall] ;
+	bingo[qtyRemainBall]  = wkNumber;
+    qtyRemainBall = qtyRemainBall - 1;
+    
 
-        for(var i = min;i <= max;i++){
-            bingo.push(i);
-        }
-        
-        for(var i = bingo.length - 1; i > 0; i--){
-            var r = Math.floor(Math.random() * (i + 1));
-            var tmp = bingo[i];
-            bingo[i] = bingo[r];
-            bingo[r] = tmp;
-        }
-        count = 0;
-        var dom_obj = document.getElementById('BingoTable');
-        while (dom_obj) dom_obj.removeChild(dom_obj.firstChild);
+    /* ボタンのテキスト編集 */
+    btnStart.textContent = "スタート";
+
+	/* ボールがなくなったら、ボタンをつかえなくする */
+    if (qtyRemainBall == 0) {
+		btnStart.disabled = true;
 
     }
 }
 
+var display_setup = function(){
+
+     // li要素定義
+  var newLi = document.createElement("dsp_li");
+  // id属性追加
+    newLi.setAttribute ("id","dsp_li"+i);
+  // テキスト初期値　ボール番号
+    var newContent = document.createTextNode(i);
+  newLi.appendChild(newContent);
+  // li要素をDOMに追加
+  document.getElementById("numLog_dsp").appendChild(newLi);
+  // 未当選状態のクラス
+    document.getElementById("dsp_li"+i).className = "BingoBallNotSelected";
+}
+
+
+function ToRun(){
+    /* 10ミリ秒ごとに残り時間を計算するタイマー処理 開始 */
+    timer = setInterval(Shuffle, 10);
+    flagRunning = true;
+
+    /* 開始終了ボタンのテキスト"STOP"に書き換える */
+    btnStart.textContent = "ストップ";
+    
+    /* 当選番号エリアのクラス名を、シャッフル中テキストのクラスに */
+	textWinArea.className = "textShuffle";
+}
+
+function Shuffle(){
+    Num = Math.ceil(Math.random() * qtyRemainBall);
+	 txtWinNo.textContent = bingo[Num] ;
+}
